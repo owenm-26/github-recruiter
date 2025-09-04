@@ -6,7 +6,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "This is the backend for GitHub Recruiter. Use `/docs` to see the endpoints"}
 
 @app.get("/user/{username}/exists")
 async def user_exists(username:str):
@@ -33,10 +33,10 @@ def get_repos(username: str):
 
     return {"message": f"{username}'s repos", "repositories": repositories}
 
-# @app.route('')
-# def get_languages():
-#     return []
+@app.route('/user/{username}/languages')
+def get_languages(username:str):
+    return {"message": "hello"}
 
-# @app.route('')
-# def get_packages_used():
-#     return []
+@app.route('/user/{username}/packages')
+def get_packages_used(username:str):
+    return {"message": "hello"}
