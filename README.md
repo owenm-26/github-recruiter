@@ -3,6 +3,7 @@ A new way to approach recruiting
 
 ## Architecture 
 Backend: FastAPI
+
 Frontend: Next.js
 
 ## How to Run
