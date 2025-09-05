@@ -43,6 +43,9 @@ def get_languages(username:str):
 
     logger.info(f'User Repos: {[repo.get("name") for repo in users_repos]}')
 
+    if len(users_repos) == 0:
+        return {"message": "User has no repos in the MongoDB DB. Make sure you've written their repos to the DB before running this", "status": 404} 
+
     for repo in users_repos:
         single_repo_languages_url = repo.get("languages_url")
         try:
