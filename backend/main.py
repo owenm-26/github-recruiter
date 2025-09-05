@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from api import api_router
 
-app = FastAPI(title="My Project API")
+app = FastAPI(title="GitHub Recruiter API")
 
 # Mount all routes
 app.include_router(api_router)

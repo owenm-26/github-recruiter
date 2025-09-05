@@ -2,8 +2,8 @@ from fastapi import APIRouter, Body
 import requests
 from pymongo.mongo_client import MongoClient
 from db.mongodb import initialize_mongodb_python_client
-from models.repositories import Repository
-from services.repositories import repository_parser
+from models.repos import Repository
+from services.repos import repository_parser
 from dotenv import load_dotenv
 import os
 
