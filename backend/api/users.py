@@ -2,6 +2,7 @@ import requests
 from fastapi import APIRouter
 from pymongo.mongo_client import MongoClient
 from db.mongodb import initialize_mongodb_python_client
+from configs.logger import logger
 from dotenv import load_dotenv
 import os
 
@@ -37,8 +38,10 @@ async def user_exists(username:str):
 @router.get('/{username}/languages')
 def get_languages(username:str):
 
-    users_repos = repo_collection.find({"candidate_name": username, "is_fork": False})
+    users_repos = list(repo_collection.find({"candidate_name": username, "is_fork": False}))
     language_volumes = {}
+
+    logger.info(f'User Repos: {[repo.get("name") for repo in users_repos]}')
 
     for repo in users_repos:
         single_repo_languages_url = repo.get("languages_url")
