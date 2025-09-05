@@ -1,4 +1,4 @@
-from models.repositories import Repository
+from models.repos import Repository
 from datetime import datetime, timezone
 
 
