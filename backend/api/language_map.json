@@ -1,0 +1,38 @@
+{
+  "javascript": {
+    "manifest": "package.json",
+    "dependencies_key": ["dependencies", "devDependencies"]
+  },
+  "python": {
+    "manifest": "requirements.txt",
+    "dependencies_key": null
+  },
+  "java": {
+    "manifest": "pom.xml",
+    "dependencies_key": null
+  },
+  "ruby": {
+    "manifest": "Gemfile",
+    "dependencies_key": null
+  },
+  "php": {
+    "manifest": "composer.json",
+    "dependencies_key": ["require", "require-dev"]
+  },
+  "rust": {
+    "manifest": "Cargo.toml",
+    "dependencies_key": null
+  },
+  "go": {
+    "manifest": "go.mod",
+    "dependencies_key": null
+  },
+  "dotnet": {
+    "manifest": "packages.config",
+    "dependencies_key": null
+  },
+  "r": {
+    "manifest": "DESCRIPTION",
+    "dependencies_key": null
+  }
+}
