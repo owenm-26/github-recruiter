@@ -15,7 +15,7 @@ class LanguagesList(BaseModel):
     languages: List[Language]
 
 class Job(BaseModel):
-    id: int
+    position_name: str
     recruiter_id: int
     candidates_reviewed_ids: List[int]
     languages: LanguagesList
