@@ -10,7 +10,10 @@ import json
 from services.users import process_repo_tree, merge_all_results
 
 
-with open("/Users/aditya/Desktop/github-recruiter/backend/api/language_map.json", "r") as f:
+load_dotenv()
+json_path = os.getenv("JSON_PATH")
+
+with open(json_path, "r") as f:
     LANGUAGE_MAP = json.load(f)
 
 

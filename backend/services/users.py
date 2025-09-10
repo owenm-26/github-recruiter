@@ -4,7 +4,6 @@ import xml.etree.ElementTree as ET
 import tomllib  # built-in from Python 3.11+
 from typing import Any
 
-
 def decode_base64_content(encoded_content: str) -> str:
     """Decode base64-encoded file content into a UTF-8 string."""
     return base64.b64decode(encoded_content).decode("utf-8")
@@ -96,18 +95,23 @@ def process_repo_tree(repo_tree: dict[str, Any], username: str, repo_name: str, 
     repo_results = {lang: set() for lang in language_map}
 
     for lang, config in language_map.items():
-        manifest_file = config["manifest"]
+        manifest_files = config.get("manifest", [])
+        if isinstance(manifest_files, str):  # backward compatibility
+            manifest_files = [manifest_files]
 
         for branch in repo_tree.get("tree", []):
-            if manifest_file in branch["path"]:
-                packages = packages_fetcher(username, repo_name, branch["path"])
-                encoded_content = packages.get("content")
-                if not encoded_content:
-                    continue
+            for manifest_file in manifest_files:
+                print("Checking", manifest_file, "in", branch["path"])
+                if manifest_file in branch["path"]:
+                    print("Found", manifest_file, "in", branch["path"])
+                    packages = packages_fetcher(username, repo_name, branch["path"])
+                    encoded_content = packages.get("content")
+                    if not encoded_content:
+                        continue
 
-                decoded_content = decode_base64_content(encoded_content)
-                deps = parse_manifest(manifest_file, decoded_content, config.get("dependencies_key"))
-                repo_results[lang].update(deps)
+                    decoded_content = base64.b64decode(encoded_content).decode("utf-8")
+                    deps = parse_manifest(manifest_file, decoded_content, config.get("dependencies_key"))
+                    repo_results[lang].update(deps)
 
     return repo_results
 
