@@ -9,9 +9,10 @@ import os
 import json
 from services.users import process_repo_tree, merge_all_results
 
+BASE_DIR = os.path.dirname(__file__)
+json_path = os.path.join(BASE_DIR, "language_map.json")
 
 load_dotenv()
-json_path = os.getenv("JSON_PATH")
 
 with open(json_path, "r") as f:
     LANGUAGE_MAP = json.load(f)
