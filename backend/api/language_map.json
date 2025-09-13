@@ -1,0 +1,82 @@
+{
+  "javascript": {
+    "manifest": ["package.json", "bower.json", "component.json"],
+    "dependencies_key": ["dependencies", "devDependencies", "peerDependencies", "optionalDependencies"]
+  },
+  "python": {
+    "manifest": ["requirements.txt", "Pipfile", "pyproject.toml", "environment.yml", "setup.py"],
+    "dependencies_key": ["packages", "dev-packages", "dependencies"] 
+  },
+  "java": {
+    "manifest": ["pom.xml", "build.gradle", "build.gradle.kts"],
+    "dependencies_key": ["dependencies"]
+  },
+  "ruby": {
+    "manifest": ["Gemfile", "gemspec"],
+    "dependencies_key": ["dependencies"]
+  },
+  "php": {
+    "manifest": ["composer.json"],
+    "dependencies_key": ["require", "require-dev"]
+  },
+  "rust": {
+    "manifest": ["Cargo.toml"],
+    "dependencies_key": ["dependencies", "dev-dependencies", "build-dependencies"]
+  },
+  "go": {
+    "manifest": ["go.mod", "Gopkg.toml"],
+    "dependencies_key": ["require"]
+  },
+  "dotnet": {
+    "manifest": ["packages.config", "*.csproj", "*.fsproj", "*.vbproj"],
+    "dependencies_key": ["PackageReference", "ItemGroup"]
+  },
+  "r": {
+    "manifest": ["DESCRIPTION", "packrat.lock"],
+    "dependencies_key": ["Depends", "Imports", "Suggests", "Enhances"]
+  },
+  "elixir": {
+    "manifest": ["mix.exs"],
+    "dependencies_key": ["deps"]
+  },
+  "haskell": {
+    "manifest": ["stack.yaml", "cabal.project", "*.cabal"],
+    "dependencies_key": ["dependencies", "build-depends"]
+  },
+  "scala": {
+    "manifest": ["build.sbt", "build.sc"],
+    "dependencies_key": ["libraryDependencies"]
+  },
+  "clojure": {
+    "manifest": ["project.clj", "deps.edn"],
+    "dependencies_key": ["dependencies"]
+  },
+  "perl": {
+    "manifest": ["cpanfile", "Makefile.PL", "Build.PL"],
+    "dependencies_key": ["requires"]
+  },
+  "erlang": {
+    "manifest": ["rebar.config"],
+    "dependencies_key": ["deps"]
+  },
+  "swift": {
+    "manifest": ["Package.swift"],
+    "dependencies_key": ["dependencies"]
+  },
+  "objective-c": {
+    "manifest": ["Podfile", "Cartfile"],
+    "dependencies_key": ["dependencies"]
+  },
+  "kotlin": {
+    "manifest": ["build.gradle", "build.gradle.kts"],
+    "dependencies_key": ["dependencies"]
+  },
+  "dart": {
+    "manifest": ["pubspec.yaml"],
+    "dependencies_key": ["dependencies", "dev_dependencies"]
+  },
+  "julia": {
+    "manifest": ["Project.toml", "Manifest.toml"],
+    "dependencies_key": ["deps"]
+  }
+}

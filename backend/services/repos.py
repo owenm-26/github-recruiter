@@ -17,4 +17,3 @@ def repository_parser(repo_objects: dict) -> list[Repository]:
 
 def convert_str_to_datetime(s:str) -> datetime:
     return datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
-

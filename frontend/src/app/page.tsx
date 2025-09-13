@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 
+
 export default function Home() {
   const router = useRouter()
 
@@ -18,7 +19,6 @@ export default function Home() {
           Get Started
         </Button>
       </div>
-
       <Footer />
     </div>
   )

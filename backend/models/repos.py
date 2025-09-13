@@ -3,7 +3,6 @@ import datetime
 from typing import Optional, List
 
 class Repository(BaseModel):
-    id: int = Field(alias="id")
     candidate_name: Optional[str] = None
     name: str 
     is_fork: bool = Field(alias="fork")

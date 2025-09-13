@@ -35,6 +35,7 @@ const formSchema = z.object({
 })
 
 export default function ToolPage() {
+
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [results, setResults] = useState<string | null>(null)
@@ -58,6 +59,7 @@ export default function ToolPage() {
       console.error(err)
     } finally {
       setLoading(false)
+
     }
   }
 
@@ -123,6 +125,7 @@ export default function ToolPage() {
               )}
             </Button>
           </form>
+
         </Form>
       )}
 

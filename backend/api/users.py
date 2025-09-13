@@ -1,10 +1,22 @@
 import requests
-from fastapi import APIRouter
+import base64
+from fastapi import APIRouter, HTTPException
 from pymongo.mongo_client import MongoClient
 from db.mongodb import initialize_mongodb_python_client
 from configs.logger import logger
 from dotenv import load_dotenv
 import os
+import json
+from services.users import process_repo_tree, merge_all_results
+
+BASE_DIR = os.path.dirname(__file__)
+json_path = os.path.join(BASE_DIR, "language_map.json")
+
+load_dotenv()
+
+with open(json_path, "r") as f:
+    LANGUAGE_MAP = json.load(f)
+
 
 load_dotenv()
 
@@ -60,7 +72,63 @@ def get_languages(username:str):
             return {"message": f"Something went wrong. Got this exception: {e}", "status":500}
         
     return {"status": 200, "response": language_volumes}
-    
-@router.get('/{username}/packages')
-def get_packages_used(username:str):
-    return {"message": "hello"}
+
+@router.get("/{username}/packages")
+def get_packages_used(username: str):
+    results = {lang: set() for lang in LANGUAGE_MAP}
+
+    # fetch repos for user
+    try:
+        repos_response = requests.get(
+            f"https://api.github.com/users/{username}/repos",
+            params={"sort": "created", "direction": "desc", "per_page": 5}
+        )
+        repos_response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=502, detail=f"Error fetching repositories for {username}: {str(e)}")
+
+    repos_data = repos_response.json()
+    if not isinstance(repos_data, list):
+        raise HTTPException(status_code=404, detail=f"No repositories found for user {username}")
+
+    for repo in repos_data:
+        repo_name = repo.get("name")
+        if not repo_name:
+            continue
+
+        # fetch repo tree
+        try:
+            repo_tree_resp = requests.get(
+                f"https://api.github.com/repos/{username}/{repo_name}/git/trees/main?recursive=1",
+                timeout=10,
+            )
+            repo_tree_resp.raise_for_status()
+            repo_tree = repo_tree_resp.json()
+        except requests.exceptions.RequestException as e:
+            # skip this repo but continue with others
+            continue
+
+        # process repo files → dependencies
+        try:
+            repo_results = process_repo_tree(
+                repo_tree,
+                username,
+                repo_name,
+                LANGUAGE_MAP,
+                lambda user, name, path: requests.get(
+                    f"https://api.github.com/repos/{user}/{name}/contents/{path}", timeout=10
+                ).json(),
+            )
+        except Exception as e:
+            # if parsing fails, continue with other repos
+            continue
+
+        merge_all_results(results, repo_results)
+
+    # convert sets → sorted lists
+    results = {lang: sorted(list(pkgs)) for lang, pkgs in results.items() if pkgs}
+
+    if not results:
+        raise HTTPException(status_code=404, detail=f"No dependencies found for user {username}")
+
+    return {"status": 200, "packages_by_language": results}
